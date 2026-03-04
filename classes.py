@@ -93,18 +93,29 @@ class Player():
         self.speed = 5.0  # normal speed
         self.is_sprinting = False
         self.speed_multiplier = 1.0
-        self.size = [50, 50]  # width, height
+        self.size = [100, 100]  # width, height
         self.stamina = Stamina(max_stamina=100, current=100, regen_rate=0.5, drain_rate=1.0)
         self.health = Health(max_health=500, current=500, hurt_rate=5.0)
         self.attacks = [Attack(attack_type="Sword Slash", damage=15),    # when key h is pressed
                         Attack(attack_type="Sword thrust", damage=20),   # when key j is pressed
                         Attack(attack_type="Fireball", damage=15),       # when key k is pressed
                         Attack(attack_type="Thunder strike", damage=25)] # when key l is pressed
+        self.facing_right = False
+        try:
+            self.image = pygame.image.load("Fox - bernice.png")
+            self.image = pygame.transform.scale(self.image, (self.size[0], self.size[1]))
+        except:
+            self.image = None
 
     # Basic movements
     def move(self, dx, dy):
         self.position[0] += dx * self.speed * self.speed_multiplier
         self.position[1] += dy * self.speed * self.speed_multiplier
+
+        if dx > 0:
+            self.facing_right = True
+        elif dx < 0:
+            self.facing_right = False
 
     def sprint(self, shift_pressed):
 
@@ -121,7 +132,18 @@ class Player():
             self.stamina.recover()
 
     def draw_self(self, surface):
-        pygame.draw.rect(surface, WHITE, (self.position[0], self.position[1], self.size[0], self.size[1]))
+        if self.image:
+            if self.facing_right == True:
+                should_flip = True
+                flipped_image = pygame.transform.flip(self.image, should_flip, False)
+                surface.blit(flipped_image, (self.position[0], self.position[1]))
+            else:
+                surface.blit(self.image, (self.position[0], self.position[1]))
+        else:
+            pygame.draw.rect(surface, WHITE, (self.position[0], self.position[1], self.size[0], self.size[1]))
+
+
+
 
     def draw_stamina_bar(self, surface):
         bar_width = self.size[0]

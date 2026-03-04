@@ -2,7 +2,8 @@ import pygame
 
 from classes import Enemy, Player
 from classes import WHITE, GREEN, YELLOW, PURPLE, RED, BLACK
-from classes import WIDTH, HEIGHT
+from classes import x, y, WIDTH, HEIGHT
+
 
 def main_menu():
     pygame.display.set_caption("Menu")
@@ -10,6 +11,8 @@ def main_menu():
 
     while True:
         screen.fill(WHITE)
+
+        #learn how to blit images for buttons and background
 
 
 def main():
@@ -21,6 +24,8 @@ def main():
     enemy = Enemy()
     game_running = True
     game_over = False
+
+    #main_menu()
 
 
     while game_running:
