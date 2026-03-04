@@ -1,4 +1,5 @@
 import pygame
+from Pygame import Main_menu
 
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
@@ -165,6 +166,7 @@ def main():
     enemy = Enemy()
     game_running = True
     game_over = False
+
     while game_running:
         screen.fill(BLACK)
         for event in pygame.event.get():
