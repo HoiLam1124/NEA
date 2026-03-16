@@ -1,18 +1,9 @@
+
 import pygame
 
 from classes import Enemy, Player
 from classes import WHITE, GREEN, YELLOW, PURPLE, RED, BLACK
 from classes import x, y, WIDTH, HEIGHT
-
-
-def main_menu():
-    pygame.display.set_caption("Menu")
-    screen = pygame.display.set_mode((1000, 400))
-
-    while True:
-        screen.fill(WHITE)
-
-        #learn how to blit images for buttons and background
 
 
 def main():
@@ -25,8 +16,19 @@ def main():
     game_running = True
     game_over = False
 
-    #main_menu()
+    if player.health.current <= 0:
+        game_over = True
 
+    # main_menu()
+
+    def main_menu():
+        pygame.display.set_caption("Menu")
+        screen = pygame.display.set_mode((1000, 400))
+
+        while True:
+            screen.fill(WHITE)
+
+            # learn how to blit images for buttons and background
 
     while game_running:
         screen.fill(BLACK)
@@ -38,6 +40,7 @@ def main():
         shift_pressed = keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]
 
         player.sprint(shift_pressed)
+        player.handle_attacks(keys, enemy)
 
         # INCREASE_IN_SPEED_WHEN_SPRINT = 1.5
         # MIN_STAMINA_TO_SPRINT = 5  # minimum stamina to allow sprinting
@@ -61,8 +64,8 @@ def main():
             if keys[pygame.K_DOWN]:
                 dy += 1
 
-            #if keys[pygame.K_SPACE]:
-                #player.attacks[0].perform[player, enemy]
+            # if keys[pygame.K_SPACE]:
+            # player.attacks[0].perform[player, enemy]
 
             player.move(dx, dy)
 
@@ -70,12 +73,11 @@ def main():
         player.draw_stamina_bar(screen)
         player.draw_health_bar(screen)
         enemy.draw_self(screen)
+        enemy.draw_health_bar(screen)
         pygame.display.flip()
         clock.tick(60)
     pygame.quit()
 
 
-
 if __name__ == "__main__":
     main()
-
