@@ -197,7 +197,7 @@ class Enemy():
     def __init__(self):
         self.position = [700, 200]
         self.size = [50, 50]
-        self.speed = 3.0
+        self.speed = 1.0
         self.health = Health(max_health=300, current=300, hurt_rate=10)
         self.attacks = [Attack(attack_type="Magic Projectiles", damage=20)]
 
@@ -214,5 +214,15 @@ class Enemy():
     def draw_self(self, surface):
         pygame.draw.rect(surface, RED, (self.position[0], self.position[1], self.size[0], self.size[1]))
 
-    # def attack(self):
+    def chase(self, player):
+
+        if player.position[0] > self.position[0]:
+            self.position[0] += self.speed
+        else:
+            self.position[0] -= self.speed
+
+        if player.position[1] > self.position[1]:
+            self.position[1] += self.speed
+        else:
+            self.position[1] -= self.speed
 

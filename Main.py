@@ -16,10 +16,6 @@ def main():
     game_running = True
     game_over = False
 
-    if player.health.current <= 0:
-        game_over = True
-
-    # main_menu()
 
     def main_menu():
         pygame.display.set_caption("Menu")
@@ -30,8 +26,30 @@ def main():
 
             # learn how to blit images for buttons and background
 
+    def main_menu(screen):
+        running = True
+
+        while running:
+            screen.fill(WHITE)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+
+            pygame.display.flip()
+
+    main_menu(screen)
+    #
     while game_running:
         screen.fill(BLACK)
+
+        if player.health.current <= 0:
+            game_over = True
+
+        #if enemy.health.current <= 0:
+
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_running = False
@@ -42,15 +60,6 @@ def main():
         player.sprint(shift_pressed)
         player.handle_attacks(keys, enemy)
 
-        # INCREASE_IN_SPEED_WHEN_SPRINT = 1.5
-        # MIN_STAMINA_TO_SPRINT = 5  # minimum stamina to allow sprinting
-        #
-        # if shift_pressed and player.stamina.current > MIN_STAMINA_TO_SPRINT:
-        #     current_speed = player.speed * INCREASE_IN_SPEED_WHEN_SPRINT
-        #     player.stamina.use()
-        # else:
-        #     current_speed = player.speed
-        #     player.stamina.recover()
 
         if not game_over:
             dx, dy = 0, 0
@@ -69,11 +78,13 @@ def main():
 
             player.move(dx, dy)
 
+
         player.draw_self(screen)
         player.draw_stamina_bar(screen)
         player.draw_health_bar(screen)
         enemy.draw_self(screen)
         enemy.draw_health_bar(screen)
+        enemy.chase(player)
         pygame.display.flip()
         clock.tick(60)
     pygame.quit()
